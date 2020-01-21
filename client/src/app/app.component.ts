@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
   public selectedDepartement: Departement;
   public map: Map;
 
+
+  private defaultLongLat: number[] = [2.3488, 48.8534];
   private longLat: any = {
     '14': [-0.3712, 49.1811],
     '61': [0.091266, 48.432856],
@@ -60,16 +62,22 @@ export class AppComponent implements OnInit {
   }
 
   private getMapView(): View {
+    const longLat = this.selectedDepartement ? this.longLat[this.selectedDepartement.code] : this.defaultLongLat;
     return new View({
-      center: fromLonLat(this.longLat[this.selectedDepartement.code]),
+      center: fromLonLat(longLat),
       zoom: 10
     });
   }
 
   public selectDepartement(code: string): void {
-    this.departementService.get(code).subscribe((departement: Departement) => {
-      this.selectedDepartement = departement;
+    if (code) {
+      this.departementService.get(code).subscribe((departement: Departement) => {
+        this.selectedDepartement = departement;
+        this.setMap();
+      });
+    } else {
+      this.selectedDepartement = null;
       this.setMap();
-    });
+    }
   }
 }

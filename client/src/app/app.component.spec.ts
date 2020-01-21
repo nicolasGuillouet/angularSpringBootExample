@@ -6,7 +6,9 @@ import { DebugElement } from '@angular/core';
 
 import { DepartementService } from './departement/departement.service';
 import { Departement } from './departement/departement';
-declare var ol: any;
+import Map from 'ol/Map';
+import View from 'ol/View';
+import { fromLonLat } from 'ol/proj';
 
 describe('AppComponent', () => {
   const allDepartements: Departement[] = require('../assets/mocks/departements-1.json');
@@ -62,9 +64,26 @@ describe('AppComponent', () => {
   }));
 
   it('Should select one departement', async(() => {
+    fixture.detectChanges();
     const app: AppComponent = fixture.debugElement.componentInstance;
-    app.selectDepartement('14');
-    expect(getOneDepartementsSpy).toHaveBeenCalled();
-    expect(app.selectedDepartement.nom).toBe('Calvados');
+    fixture.whenStable().then(() => {
+      app.selectDepartement('14');
+      fixture.detectChanges();
+      expect(getOneDepartementsSpy).toHaveBeenCalled();
+      expect(app.selectedDepartement.nom).toBe('Calvados');
+      const theMap: Map = app.map;
+      let view: View = theMap.getView();
+      expect(view.getCenter()).toEqual(fromLonLat([-0.3712, 49.1811]));
+
+      //With no departement
+      app.selectDepartement('');
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(getOneDepartementsSpy).toHaveBeenCalledTimes(1);
+        expect(app.selectedDepartement).toBeNull();
+        view = theMap.getView();
+        expect(view.getCenter()).toEqual(fromLonLat([2.3488, 48.8534]));
+      });
+    });
   }));
 });
