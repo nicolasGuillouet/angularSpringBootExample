@@ -1,0 +1,18 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Afficher un département sur la carte
+  </h1>
+  <select (change)="selectDepartement($event.target.value)">
+    <option value=''>Sélectionnez un département</option>
+    <option *ngFor="let departement of departements" value='{{departement.code}}'>{{departement.nom}}</option>
+  </select>
+
+  <div *ngIf="selectedDepartement !== null">
+    Nom : {{ selectedDepartement.nom}}
+    Code : {{ selectedDepartement.code}}
+    Code Région : {{ selectedDepartement.codeRegion}}
+  </div>
+  <div id="map" class="map"></div>
+</div>
+
