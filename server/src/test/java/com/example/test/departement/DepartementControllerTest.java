@@ -38,7 +38,7 @@ public class DepartementControllerTest {
     	Departement calvados = new Departement("Calvados", "14", "28");
     	Departement orne = new Departement("Calvados", "14", "28");
     	
-    	allDepartements = new ArrayList();
+    	allDepartements = new ArrayList<>();
     	allDepartements.add(calvados);
     	allDepartements.add(orne);
     	
