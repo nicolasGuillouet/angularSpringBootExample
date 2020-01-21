@@ -2,7 +2,7 @@
 Simple example with dialogs beetween angular 2 + SpringBoot.
 
 ## Install
-You for running it, you have to run server side (StringBoot) and client side (Angular).
+For running it, you have to run server side (StringBoot) and client side (Angular).
 You well need : 
 - Java 8
 - Maven
